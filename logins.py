@@ -97,7 +97,18 @@ def slack_login():
 
     browser.switch_to_window(browser.window_handles[0])
 
+def trello_login():
+    browser.execute_script('window.open('');')
+    browser.switch_to_window(browser.window_handles[2])
 
+    browser.get('https://trello.com/login')
+    google_auth_button = browser.find_element_by_id('google-link')
+    google_auth_button.click()
+    sleep(3)
+
+    teacher_training_board_elem = browser.find_element_by_class_name('boards-page-board-section-list-item')
+    teacher_training_board_elem.click()
+    sleep(5)
 
 
 
@@ -105,4 +116,5 @@ def slack_login():
 if __name__ == '__main__':
     gmail_login()
     slack_login()
+    trello_login()
     gmail_logout()
