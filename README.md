@@ -10,3 +10,7 @@ Other things include:
 
 * Sending notification emails to parents
 * Checking students' content on their e-Learning platform
+
+My goal with this endevour is to completely eliminate these trivial and boring stuff by automating them using Python. My mind can then focus things that I find more interesting.
+
+To the free life .... cheers!
