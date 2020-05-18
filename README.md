@@ -5,6 +5,7 @@ Some of the most boring things that I have to do every day at work include:
 1. Signing in to GSuite
 2. Signing in to Slack and posting my commute time
 3. Logging in to Trello and checking the common boards
+4. Logging out of them all and clearing my browser from the beggining of time
 
 Other things include:
 
