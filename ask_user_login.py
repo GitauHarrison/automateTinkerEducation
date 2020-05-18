@@ -8,6 +8,7 @@ import datetime
 
 browser = webdriver.Chrome()
 
+
 def slack_login():
     browser.execute_script('window.open('');')
     browser.switch_to_window(browser.window_handles[1])
@@ -40,14 +41,38 @@ def slack_login():
         break
 
     # Post my commute time
-    commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[17]/div/a')
-    commute_channel_elem.click()
-    sleep(2)
+    def commute_time():
+        commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[17]/div/a')
+        commute_channel_elem.click()
+        sleep(1.5)
+        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
+        arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem.click()
+        post_elem.send_keys(arrival + ' Work started')
+        sleep(1.5)
+        post_elem.send_keys(Keys.ENTER)
+
+    commute_time()
+
+def slack_logout():
+    #browser.switch_to_window(browser.window_handles[1])
     post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
-    arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
+    departure = datetime.datetime.now().strftime('%I:%M:%S %p')
     post_elem.click()
-    post_elem.send_keys(arrival + ' Work started')
+    post_elem.send_keys(departure + ' Completed work')
     sleep(1.5)
     post_elem.send_keys(Keys.ENTER)
 
+    side_bar_header_info_elem = browser.find_element_by_class_name('p-ia__sidebar_header__button')
+    side_bar_header_info_elem.click()
+    sleep(1.5)
+    sign_out_elem = browser.find_element_by_xpath('/html/body/div[6]/div/div/div/div/div/div/div[15]/button')
+    sleep(1.5)
+    browser.save_screenshot('slack_logout.png')
+    sign_out_elem.click()    
+    sleep(1.5)
+    browser.close()
+
 slack_login()
+sleep(10)
+slack_logout()
