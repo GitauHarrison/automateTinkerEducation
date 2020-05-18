@@ -37,9 +37,17 @@ def slack_login():
         sign_in_button_elem.send_keys(Keys.ENTER)
         sleep(1.5)
 
-        #break
+        break
 
     # Post my commute time
-    
+    commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[17]/div/a')
+    commute_channel_elem.click()
+    sleep(2)
+    post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
+    arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
+    post_elem.click()
+    post_elem.send_keys(arrival + ' Work started')
+    sleep(1.5)
+    post_elem.send_keys(Keys.ENTER)
 
 slack_login()
