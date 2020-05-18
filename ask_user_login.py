@@ -7,6 +7,7 @@ from time import sleep
 import datetime
 
 browser = webdriver.Chrome()
+browser.maximize_window()
 
 
 def slack_login():
