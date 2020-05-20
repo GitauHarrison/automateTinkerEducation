@@ -34,4 +34,9 @@ for r in range(2, sheet.max_row + 1):
 
     sleep(3)
 
-   
+    gender = sheet.cell(row = r, column = 2).value
+    if gender == 'male':
+        gender = 'his'
+    else:
+        gender = 'her'
+    student_name = sheet.cell(row = r, column = 1).value
