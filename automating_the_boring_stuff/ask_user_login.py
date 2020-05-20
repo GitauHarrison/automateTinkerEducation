@@ -6,7 +6,10 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 import datetime
 
-browser = webdriver.Chrome()
+chrome_options = webdriver.ChromeOptions(); 
+chrome_options.add_experimental_option("excludeSwitches", ['enable-automation']);
+browser = webdriver.Chrome(options=chrome_options); 
+
 browser.maximize_window()
 
 

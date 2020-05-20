@@ -7,7 +7,9 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 import datetime
 
-browser = webdriver.Chrome()
+chrome_options = webdriver.ChromeOptions(); 
+chrome_options.add_experimental_option("excludeSwitches", ['enable-automation']);
+browser = webdriver.Chrome(options=chrome_options); 
 browser.maximize_window()
 
 def gmail_login():
@@ -23,7 +25,7 @@ def gmail_login():
     email_input_elem = browser.find_element_by_class_name('whsOnd')
     email_input_elem.click()
     email_input_elem.clear()
-    email_input_elem.send_keys('harrison@tinkeredu.net')
+    email_input_elem.send_keys('my_email@example.com')
     email_next_button_elem = browser.find_element_by_id('identifierNext')
     email_next_button_elem.send_keys(Keys.ENTER)
     sleep(2)
@@ -33,7 +35,7 @@ def gmail_login():
     password_input_elem = browser.find_element_by_class_name('whsOnd')
     password_input_elem.click()
     password_input_elem.clear()
-    password_input_elem.send_keys('@~7.t0odyTurf3!n')
+    password_input_elem.send_keys('my_password')
     password_next_button_elem = browser.find_element_by_id('passwordNext')
     password_next_button_elem.send_keys(Keys.ENTER)
     sleep(1)
@@ -74,18 +76,18 @@ def slack_login():
     browser.get('https://slack.com/signin#/')
     workspace_elem = browser.find_element_by_name('domain')
     workspace_elem.click()
-    workspace_elem.send_keys('tinkeredu')
+    workspace_elem.send_keys('my_workspace')
     continue_elem = browser.find_element_by_id('submit_team_domain')
     continue_elem.send_keys(Keys.ENTER)
     sleep(1)
 
     sign_in_email_elem = browser.find_element_by_name('email')
     sign_in_email_elem.click()
-    sign_in_email_elem.send_keys('harrison@tinkeredu.net')
+    sign_in_email_elem.send_keys('my_email@example.com')
 
     sign_in_password_elem = browser.find_element_by_name('password')
     sign_in_password_elem.click()
-    sign_in_password_elem.send_keys('Turf2013W!n..,,..,,')
+    sign_in_password_elem.send_keys('my_password')
 
     sign_in_button_elem = browser.find_element_by_id('signin_btn')
     sign_in_button_elem.click()
@@ -148,6 +150,6 @@ if __name__ == '__main__':
     gmail_login()
     slack_login()
     trello_login()
-    #trello_logout()
-    #slack_logout()
-    #gmail_logout()
+    trello_logout()
+    slack_logout()
+    gmail_logout()
