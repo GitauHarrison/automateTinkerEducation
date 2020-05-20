@@ -24,8 +24,6 @@ for r in range(2, sheet.max_row + 1):
     parent_email = sheet.cell(row = r, column = 9).value
     parent[parent_name] = parent_email
 
-    sleep(3)
-
     course = sheet.cell(row = r, column = 3).value
     account = sheet.cell(row = r, column = 4).value
     link = sheet.cell(row = r, column = 5).value
@@ -33,13 +31,7 @@ for r in range(2, sheet.max_row + 1):
     session = sheet.cell(row = r, column = 7).value
     class_info[course] = account, link, clasS_day, session
 
-    sleep(3)
-
     gender = sheet.cell(row = r, column = 2).value
-    if gender == 'male':
-        gender = 'his'
-    else:
-        gender = 'her'
     student_name = sheet.cell(row = r, column = 1).value
     
 smtpObj = smtplib.SMTP('smtp.gmail.com')
@@ -49,17 +41,15 @@ smtpObj.starttls()
 for parent_name, parent_email in parent.items():
     for course, account, link, clasS_day, session in class_info.items():
         smtpObj.login('tastebolder@gmail.com', sys.argv[1])
-        if gender == 'male':
+        if gender.lower() == 'male':
             gender = 'his'
             body = 'Subject: Tinker Education Online Classes\n\nDear %s,\n\nHope you and your family are doing well and keep safe while at home. Tinker Education would like to bring to your attention that our online classes will commence  on ', day,' .\n\nOur teachers would like to have an insanely great start of the term with our students. Hence, you are requested to notify your child of ',gender, 'class time. Class details are as follows:\n\n%s\n\nDay: %s\nSession: %s\nCLP:\n%s\nVideo link: %s\n\n%s is requested to keep time of ', gender, ' %s %s\n\nKind regards,\nTinker Desk'%(parent_name, course, clasS_day, account, link, student_name, course, session)
         else:
             gender = 'her'
             body = 'Subject: Tinker Education Online Classes\n\nDear %s,\n\nHope you and your family are doing well and keep safe while at home. Tinker Education would like to bring to your attention that our online classes will commence  on ', day,' .\n\nOur teachers would like to have an insanely great start of the term with our students. Hence, you are requested to notify your child of ',gender, 'class time. Class details are as follows:\n\n%s\n\nDay: %s\nSession: %s\nCLP:\n%s\nVideo link: %s\n\n%s is requested to keep time of ', gender, ' %s %s\n\nKind regards,\nTinker Desk'%(parent_name, course, clasS_day, account, link, student_name, course, session)
-        print('Sending emails to %s through %s'%(parent_name, parent_email))
-        send_email_status = smtpObj.sendmail('tastebolder@gmail.com', parent_email, body)
+    print('Sending emails to %s through %s'%(parent_name, parent_email))
+    send_email_status = smtpObj.sendmail('tastebolder@gmail.com', parent_email, body)
 
 if send_email_status != {}:
     print('There was an error sending an email to %s through %s'(parent_name, parent_email))
 smtpObj.quit()
-
-#print(parent, class_info)
