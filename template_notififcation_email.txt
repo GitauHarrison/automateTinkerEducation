@@ -1,0 +1,21 @@
+Dear <parent>,
+
+Hope you and your family are doing well and keep safe while at home. 
+I would like to bring to your attention that Somasoma Education will 
+commence its new term on <class day>.
+
+Our teachers would like to have an insanely great start of the term 
+with our students. Hence, you are requested to notify your child of 
+<gender> class time. Class details are as follows:
+
+<course>
+Day: <class day>
+Session: <lass session time>
+CLP:
+<clp account details>
+Video link: <Google Meet link>
+
+<Student name> is requested to keep time of <gender> <course> <session time>.
+
+Kind regards,
+Tinker Desk
