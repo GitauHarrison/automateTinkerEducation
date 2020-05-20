@@ -25,4 +25,13 @@ for r in range(2, sheet.max_row + 1):
 
     sleep(3)
 
-    
+    course = sheet.cell(row = r, column = 3).value
+    account = sheet.cell(row = r, column = 4).value
+    link = sheet.cell(row = r, column = 5).value
+    clasS_day = sheet.cell(row = r, column = 6).value
+    session = sheet.cell(row = r, column = 7).value
+    class_info[course] = account, link, clasS_day, session
+
+    sleep(3)
+
+   
