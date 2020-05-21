@@ -14,8 +14,8 @@ browser.maximize_window()
 
 
 def slack_login():
-    browser.execute_script('window.open('');')
-    browser.switch_to_window(browser.window_handles[1])
+    #browser.execute_script('window.open('');')
+    #browser.switch_to_window(browser.window_handles[1])
 
     browser.get('https://slack.com/signin#/')
     workspace_elem = browser.find_element_by_name('domain')
@@ -46,15 +46,22 @@ def slack_login():
 
     # Post my commute time
     def commute_time():
+        sleep(2)
         commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[17]/div/a')
         commute_channel_elem.click()
         sleep(1.5)
-        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
-        arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')        
         post_elem.click()
-        post_elem.send_keys(arrival + ' Work started')
-        sleep(1.5)
+        arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem.send_keys(arrival + ' Work started')        
         post_elem.send_keys(Keys.ENTER)
+
+        update_arrival_time = datetime.timedelta(days = 0, hours = 0, minutes = 1, seconds = 0)
+        now = datetime.datetime.now()
+        while now:                                            
+            if now == datetime.time(5, 40):                
+                slack_logout()
+            now += update_arrival_time
 
     commute_time()
 
@@ -78,5 +85,5 @@ def slack_logout():
     browser.close()
 
 slack_login()
-sleep(10)
-slack_logout()
+#sleep(10)
+#slack_logout()
