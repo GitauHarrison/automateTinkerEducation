@@ -9,7 +9,7 @@ import datetime
 chrome_options = webdriver.ChromeOptions(); 
 chrome_options.add_experimental_option("excludeSwitches", ['enable-automation']);
 browser = webdriver.Chrome(options=chrome_options); 
-
+#browser = webdriver.Firefox()
 browser.maximize_window()
 
 
@@ -56,24 +56,42 @@ def slack_login():
         post_elem.send_keys(arrival + ' Work started')        
         post_elem.send_keys(Keys.ENTER)
 
-        update_arrival_time = datetime.timedelta(days = 0, hours = 0, minutes = 1, seconds = 0)
-        now = datetime.datetime.now()
-        while now:                                            
-            if now == datetime.time(5, 40):                
-                slack_logout()
-            now += update_arrival_time
+        def my_loop():
+            delta = datetime.timedelta(seconds = 1)
+            now = datetime.datetime.now()
 
+            lunch_delta = datetime.timedelta(minutes = 3)
+            lunch_time = now + lunch_delta
+            lunch_time_now = lunch_time.strftime('%I:%M:%S %p')
+
+            back_from_lunch_delta = datetime.timedelta(minutes = 5)
+            back_from_lunch = now + back_from_lunch_delta
+            back_from_lunch_time = back_from_lunch.strftime('%I:%M:%S %p')
+
+            departure_delta = datetime.timedelta(minutes = 7)
+            departure = now + departure_delta
+            departure_time = departure.strftime('%I:%M:%S %p')
+
+            while now < (departure + datetime.timedelta(seconds = 1)):  
+                #print('Now: ', now.strftime('%I:%M:%S %p'))                                          
+                if now == lunch_time:
+                    post_elem.send_keys(' Left for lunch at ', lunch_time_now)
+                    post_elem.send_keys(Keys.ENTER)
+                    sleep(5)
+                elif now == back_from_lunch:
+                    post_elem.send_keys('Back from lunch at ', back_from_lunch_time)
+                    post_elem.send_keys(Keys.ENTER)
+                    sleep(5)            
+                elif now == departure:
+                    post_elem.send_keys('Left at ', departure_time)
+                    post_elem.send_keys(Keys.ENTER) 
+                    sleep(2)
+                    slack_logout()               
+                now += delta
+        my_loop()
     commute_time()
 
 def slack_logout():
-    #browser.switch_to_window(browser.window_handles[1])
-    post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
-    departure = datetime.datetime.now().strftime('%I:%M:%S %p')
-    post_elem.click()
-    post_elem.send_keys(departure + ' Completed work')
-    sleep(1.5)
-    post_elem.send_keys(Keys.ENTER)
-
     side_bar_header_info_elem = browser.find_element_by_class_name('p-ia__sidebar_header__button')
     side_bar_header_info_elem.click()
     sleep(1.5)
@@ -85,5 +103,3 @@ def slack_logout():
     browser.close()
 
 slack_login()
-#sleep(10)
-#slack_logout()
