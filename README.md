@@ -2,7 +2,7 @@
 
 __In pursuit of automation of mundane tasks__
 
-My goal is to ruthlessly eliminate any task that consumes time which, in my opinion, can be instead automated.
+My goal is to ruthlessly eliminate any task that consumes time which, in my opinion, can instead be automated.
 
 ![Office automation](automation_life.jpg)
 
