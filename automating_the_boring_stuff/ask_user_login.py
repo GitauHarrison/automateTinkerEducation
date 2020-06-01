@@ -47,7 +47,7 @@ def slack_login():
     # Post my commute time
     def commute_time():
         sleep(2)
-        commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[17]/div/a')
+        commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[16]/div')
         commute_channel_elem.click()
         sleep(1.5)
         post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')        
@@ -55,8 +55,31 @@ def slack_login():
         arrival = datetime.datetime.now().strftime('%I:%M:%S %p')
         post_elem.send_keys(arrival + ' Work started')        
         post_elem.send_keys(Keys.ENTER)
+        sleep(3)
 
-        def my_loop():
+        lunch_time_now = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')        
+        post_elem.click()
+        post_elem.send_keys(' Left for lunch at ', lunch_time_now)
+        post_elem.send_keys(Keys.ENTER)
+        sleep(60)
+
+        return_from_lunch_break = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')        
+        post_elem.click()
+        post_elem.send_keys('Back from lunch at ', return_from_lunch_break)
+        post_elem.send_keys(Keys.ENTER)
+        sleep(60)
+
+        departure = datetime.datetime.now().strftime('%I:%M:%S %p')
+        post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')        
+        post_elem.click()
+        post_elem.send_keys('Left at ', return_from_lunch_break)
+        post_elem.send_keys(Keys.ENTER)
+        sleep(3)
+        slack_logout()
+
+        def my_commute_loop():
             delta = datetime.timedelta(seconds = 1)
             now = datetime.datetime.now()
 
@@ -77,18 +100,18 @@ def slack_login():
                 if now == lunch_time:
                     post_elem.send_keys(' Left for lunch at ', lunch_time_now)
                     post_elem.send_keys(Keys.ENTER)
-                    sleep(5)
+                    sleep(60)
                 elif now == back_from_lunch:
                     post_elem.send_keys('Back from lunch at ', back_from_lunch_time)
                     post_elem.send_keys(Keys.ENTER)
-                    sleep(5)            
+                    sleep(60)            
                 elif now == departure:
                     post_elem.send_keys('Left at ', departure_time)
                     post_elem.send_keys(Keys.ENTER) 
-                    sleep(2)
-                    slack_logout()               
+                    sleep(60)
+                    #slack_logout()               
                 now += delta
-        my_loop()
+        #my_commute_loop()
     commute_time()
 
 def slack_logout():
