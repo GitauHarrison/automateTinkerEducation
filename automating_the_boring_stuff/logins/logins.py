@@ -13,23 +13,15 @@ browser = webdriver.Chrome(options=chrome_options);
 browser.maximize_window()
 
 def gmail_login():
-    browser.get('https://www.google.com/gmail/about/#')
-    sign_in_elem = browser.find_element_by_link_text('Sign in')
-    sign_in_elem.click()
-
-    #browser.execute_script('window.open('');')
-    browser.switch_to_window(browser.window_handles[1])
-    sleep(3)
-
     # Enter your email
+    browser.get('https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&service=mail&sacu=1&rip=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin')
     email_input_elem = browser.find_element_by_class_name('whsOnd')
     email_input_elem.click()
     email_input_elem.clear()
     email_input_elem.send_keys('my_email')
     email_next_button_elem = browser.find_element_by_id('identifierNext')
     email_next_button_elem.send_keys(Keys.ENTER)
-    sleep(2)
-    #email_input_elem.submit()
+    sleep(2)    
 
     # Fill in your password
     password_input_elem = browser.find_element_by_class_name('whsOnd')
@@ -39,10 +31,6 @@ def gmail_login():
     password_next_button_elem = browser.find_element_by_id('passwordNext')
     password_next_button_elem.send_keys(Keys.ENTER)
     sleep(1)
-
-    browser.switch_to_window(browser.window_handles[0])
-    browser.close()
-    browser.switch_to_window(browser.window_handles[0])
     
     # Switch to GDrive
     def gdrive():
@@ -56,10 +44,8 @@ def gmail_login():
         sleep(2)
     #gdrive()
 
-    browser.switch_to_window(browser.window_handles[0])
-    sign_out_time = 9 * 60 * 60
-    sleep(sign_out_time + 60)
-    gmail_logout()    
+    # sign in to trello
+    trello_login()
 
 def gmail_logout():
     #browser.execute_script('window.open('');')
@@ -75,7 +61,7 @@ def gmail_logout():
 
 def slack_login():
     browser.execute_script('window.open('');')
-    browser.switch_to_window(browser.window_handles[1])
+    browser.switch_to_window(browser.window_handles[2])
 
     browser.get('https://slack.com/signin#/')
     workspace_elem = browser.find_element_by_name('domain')
@@ -104,7 +90,7 @@ def slack_login():
         from_lunch_break = 58 * 60
         to_departure = 4 * 60 * 60
 
-        commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div/nav/div/div[1]/div/div/div[1]/div/div/div[7]/a/span')
+        commute_channel_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[1]/div/nav/div/div[1]/div/div/div[1]/div/div/div[7]')
         commute_channel_elem.click()
         sleep(2)
         post_elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[3]/div/div[2]/footer/div/div/div[1]/div[1]/div[1]')
@@ -150,10 +136,9 @@ def slack_logout():
     browser.save_screenshot('slack_logout.png')
     browser.close()
 
-
 def trello_login():
     browser.execute_script('window.open('');')
-    browser.switch_to_window(browser.window_handles[2])
+    browser.switch_to_window(browser.window_handles[1])
 
     browser.get('https://trello.com/login')
     google_auth_button = browser.find_element_by_id('google-link')
@@ -162,10 +147,6 @@ def trello_login():
 
     teacher_training_board_elem = browser.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[2]/main/div[3]/div/div[2]/div/div/div/div/div[2]/div/div/div[1]/div/div[2]/ul/li')
     teacher_training_board_elem.click()
-
-    sign_out_time = 9 * 60 * 60
-    sleep(sign_out_time + 60)
-    trello_logout()
 
 def trello_logout():
     sign_out_time = 9 * 60 * 60
@@ -184,4 +165,12 @@ def trello_logout():
 if __name__ == '__main__':
     gmail_login()
     slack_login()
-    trello_login()
+    
+    sign_out_time = 9 * 60 * 60
+    sleep(sign_out_time + 60)
+
+    browser.switch_to_window(browser.window_handles[0])
+    gmail_logout()
+
+    browser.switch_to_window(browser.window_handles[0])    
+    trello_logout()
