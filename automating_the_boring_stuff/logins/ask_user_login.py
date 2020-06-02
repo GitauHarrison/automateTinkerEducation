@@ -168,22 +168,6 @@ def gmail_login():
         sleep(2)
     #gdrive()
 
-    # sign in to trello
-    #browser.execute_script('window.open('');')
-    #browser.switch_to_window(browser.window_handles[2])
-    #trello_login()
-    #sleep(5)
-
-    #trello_logout()
-    #sleep(5)
-    #browser.execute_script('window.open('');')
-    #browser.switch_to_window(browser.window_handles[1])
-    #gmail_logout()
-
-    #browser.execute_script('window.open('');')
-    #browser.switch_to_window(browser.window_handles[0])
-    #slack_logout()
-
 def trello_login():
     browser.execute_script('window.open('');')
     browser.switch_to_window(browser.window_handles[2])
@@ -208,7 +192,6 @@ def trello_logout():
     browser.close()
 
 def gmail_logout():
-    #browser.execute_script('window.open('');')
     browser.switch_to_window(browser.window_handles[1])
     profile_elem = browser.find_element_by_class_name('gb_ia')
     profile_elem.click()
@@ -220,4 +203,3 @@ def gmail_logout():
     browser.close()
 
 slack_login()
-#gmail_login()
